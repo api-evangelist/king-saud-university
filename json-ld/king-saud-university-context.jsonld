@@ -1,0 +1,42 @@
+{
+  "@context": {
+    "@vocab": "https://schema.org/",
+    "ksu": "https://ksu.edu.sa/vocab#",
+    "schema": "https://schema.org/",
+    "name": "schema:name",
+    "alternateName": "schema:alternateName",
+    "url": "schema:url",
+    "description": "schema:description",
+    "logo": "schema:logo",
+    "foundingDate": "schema:foundingDate",
+    "location": "schema:location",
+    "address": {
+      "@id": "schema:address",
+      "@type": "schema:PostalAddress"
+    },
+    "addressCountry": "schema:addressCountry",
+    "addressLocality": "schema:addressLocality",
+    "sameAs": {
+      "@id": "schema:sameAs",
+      "@type": "@id"
+    },
+    "EducationalOrganization": "schema:EducationalOrganization",
+    "CollegeOrUniversity": "schema:CollegeOrUniversity"
+  },
+  "@type": "CollegeOrUniversity",
+  "@id": "https://ksu.edu.sa/en",
+  "name": "King Saud University",
+  "alternateName": "KSU",
+  "url": "https://ksu.edu.sa/en",
+  "description": "King Saud University (KSU) is a public research university in Riyadh, Saudi Arabia, founded in 1957. It operates a broad estate of digital services gated behind institutional authentication, but does not publish a public, documented developer or API program.",
+  "foundingDate": "1957",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Riyadh",
+    "addressCountry": "SA"
+  },
+  "sameAs": [
+    "https://www.linkedin.com/school/king-saud-university/",
+    "https://x.com/_KSU"
+  ]
+}
