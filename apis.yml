@@ -1,0 +1,66 @@
+---
+aid: king-saud-university
+name: King Saud University
+description: >-
+  King Saud University (KSU) is a public research university in Riyadh, Saudi
+  Arabia, founded in 1957, and ranked #200 in the QS World University Rankings
+  2025. KSU operates a broad estate of digital services — including the Edugate
+  student information system, an LMS, a library catalog, Saudi Digital Library
+  access, a digitized manuscripts portal, and university e-services — but it does
+  not publish a public, documented developer or API program. The systems found
+  during review are end-user web applications gated behind institutional SSO/login
+  rather than openly documented APIs. No public API reference, OpenAPI definition,
+  developer portal, or open-data API endpoint could be confirmed.
+type: Index
+position: Consumer
+access: 3rd-Party
+image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+url: https://raw.githubusercontent.com/api-evangelist/king-saud-university/refs/heads/main/apis.yml
+tags:
+  - Education
+  - Higher Education
+  - University
+  - Saudi Arabia
+  - Middle East
+  - Research
+created: '2026-06-03'
+modified: '2026-06-03'
+specificationVersion: '0.19'
+apis:
+  - aid: king-saud-university:none
+    name: No Public Documented API
+    description: >-
+      As of this review, King Saud University exposes no public, documented
+      developer API. University digital services (Edugate SIS, LMS, library
+      catalog, Saudi Digital Library access, manuscripts portal, and general
+      e-services) are end-user web applications requiring institutional
+      authentication. No public API documentation, OpenAPI definition, developer
+      portal, or open-data API endpoint was confirmed. Access to any
+      programmatic interface would require contacting the university directly.
+    humanURL: https://ksu.edu.sa/en
+    tags: [ Gated, No Public API, SSO ]
+    properties:
+      - type: Documentation
+        url: https://ksu.edu.sa/en
+      - type: Authentication
+        url: https://edugate.ksu.edu.sa/ksu/init
+common:
+  - type: Website
+    url: https://ksu.edu.sa/en
+  - type: LinkedIn
+    url: https://www.linkedin.com/school/king-saud-university/
+  - type: Twitter
+    url: https://x.com/_KSU
+  - type: Authentication
+    url: https://edugate.ksu.edu.sa/ksu/init
+  - type: Plans
+    url: plans/king-saud-university-plans-pricing.yml
+  - type: RateLimits
+    url: rate-limits/king-saud-university-rate-limits.yml
+  - type: FinOps
+    url: finops/king-saud-university-finops.yml
+  - type: Review
+    url: review.yml
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

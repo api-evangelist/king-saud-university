@@ -1,0 +1,50 @@
+---
+name: King Saud University
+description: King Saud University public developer/API footprint review for APIs.json cataloging.
+url: https://raw.githubusercontent.com/api-evangelist/king-saud-university/refs/heads/main/review.yml
+created: '2026-06-03'
+modified: '2026-06-03'
+reviews:
+  - date: '2026-06-03'
+    rating: 1
+    summary: >-
+      No public, documented developer API or developer portal could be confirmed
+      for King Saud University. The main website, library affairs site, Edugate
+      SIS, LMS, Saudi Digital Library access, and manuscripts portal all resolve
+      and are live, but they are end-user web applications gated behind
+      institutional SSO/login with no published API reference, OpenAPI definition,
+      or open-data API endpoint. A DSpace institutional repository is referenced
+      in third-party registries, but its repository subdomain and OAI-PMH endpoint
+      did not resolve at review time. Findings reflect strict no-fabrication
+      discipline; no endpoints were invented.
+    endpoints:
+      - url: https://ksu.edu.sa/en
+        status: 200
+        note: Official university website (English).
+      - url: https://library.ksu.edu.sa/en
+        status: 200
+        note: Deanship of Library Affairs; links to catalog and databases, no API docs.
+      - url: https://edugate.ksu.edu.sa/ksu/init
+        status: 200
+        note: Edugate student information system; SSO/login gated, no public API.
+      - url: https://my.ksu.edu.sa
+        status: 200
+        note: University portal; login gated.
+      - url: https://faculty.ksu.edu.sa
+        status: 200
+        note: Faculty portal; resolves, no public API.
+      - url: https://access.library.ksu.edu.sa/
+        status: 200
+        note: Saudi Digital Library access; subscription/login gated.
+      - url: https://makhtota.ksu.edu.sa/
+        status: 200
+        note: Digitized manuscripts portal; web app, no documented API.
+      - url: https://repository.ksu.edu.sa
+        status: 0
+        note: DSpace institutional repository referenced in ROAR; subdomain did not resolve.
+      - url: http://repository.ksu.edu.sa/oai/request?verb=Identify
+        status: 0
+        note: Expected OAI-PMH endpoint; connection refused / did not resolve.
+      - url: http://catalog.library.ksu.edu.sa/
+        status: 0
+        note: Library automated catalog link; did not resolve at review time.
