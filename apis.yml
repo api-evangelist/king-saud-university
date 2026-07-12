@@ -45,6 +45,8 @@ apis:
       - type: Authentication
         url: https://edugate.ksu.edu.sa/ksu/init
 common:
+  - type: DomainSecurity
+    url: security/king-saud-university-domain-security.yml
   - type: Website
     url: https://ksu.edu.sa/en
   - type: LinkedIn
