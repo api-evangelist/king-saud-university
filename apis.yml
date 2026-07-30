@@ -12,9 +12,21 @@ description: >-
   rather than openly documented APIs. No public API reference, OpenAPI definition,
   developer portal, or open-data API endpoint could be confirmed.
 type: Index
+accessModel:
+  pricing: free
+  onboarding: unknown
+  trial: false
+  try_now: false
+  public: false
+  label: Free
+  confidence: medium
+  source:
+  - plans
+  generated: '2026-07-22'
+  method: derived
 position: Consumer
 access: 3rd-Party
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/king-saud-university.png
 url: https://raw.githubusercontent.com/api-evangelist/king-saud-university/refs/heads/main/apis.yml
 tags:
   - Education
