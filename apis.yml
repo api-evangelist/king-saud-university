@@ -2,93 +2,382 @@
 aid: king-saud-university
 name: King Saud University
 description: >-
-  King Saud University (KSU) is a public research university in Riyadh, Saudi
-  Arabia, founded in 1957, and ranked #200 in the QS World University Rankings
-  2025. KSU operates a broad estate of digital services — including the Edugate
-  student information system, an LMS, a library catalog, Saudi Digital Library
-  access, a digitized manuscripts portal, and university e-services — but it does
-  not publish a public, documented developer or API program. The systems found
-  during review are end-user web applications gated behind institutional SSO/login
-  rather than openly documented APIs. No public API reference, OpenAPI definition,
-  developer portal, or open-data API endpoint could be confirmed.
+  King Saud University (جامعة الملك سعود, KSU) is Saudi Arabia's oldest public
+  research university, founded in Riyadh in 1957. Contrary to the 2026-06-03
+  review of this profile, KSU does operate public, machine-readable surfaces on
+  its own domain — they are documented only in Arabic, which is why an
+  English-language review missed them. Its Data Management Office publishes an
+  institutional open-data programme at data.ksu.edu.sa: 852 dataset distribution
+  files across seven dataset families in JSON, XML, RDF/XML, CSV and XLSX,
+  unauthenticated, under a KSU-authored open-data licence, on a declared annual
+  cadence, with an Arabic API guide and a 13-page reference PDF. Separately, the
+  university runs its own identity plane at iam.ksu.edu.sa, which serves a public
+  OpenID Connect discovery document and RFC 8414 authorization-server metadata,
+  and whose SAML 2.0 identity provider is registered in eduGAIN through the Saudi
+  Maeen Identity Federation. What KSU does NOT publish is a developer programme:
+  there is no developer portal, no API reference in English, no OpenAPI, no
+  apis.json, no llms.txt, no status page and no self-service client registration —
+  the advertised OAuth registration endpoint answers 404. The filtered open-data
+  query API the university still documents has been withdrawn from its own router.
+  Everything else students and staff touch — Edugate, MyKSU, the Blackboard LMS,
+  the library catalogue — is either a gated end-user application or a vendor
+  platform running under a KSU hostname.
 type: Index
+x-type: university
+x-category: Public Research University
 deliveryModel:
   model: saas
   open_source: false
-  commercial: true
-  callable_host: false
+  commercial: false
+  callable_host: true
   label: Hosted service · you call their endpoint
-  confidence: medium
+  confidence: high
   source:
-  - pricing
-  generated: '2026-08-28'
-  method: derived
+  - openapi
+  - probed
+  generated: '2026-09-01'
+  method: probed
 accessModel:
   pricing: free
-  onboarding: unknown
+  onboarding: none
   trial: false
-  try_now: false
-  public: false
-  label: Free
-  confidence: medium
+  try_now: true
+  public: true
+  label: Free · open data needs no account; identity plane is not self-service
+  confidence: high
   source:
+  - probed
   - plans
-  generated: '2026-07-22'
-  method: derived
-position: Consumer
+  generated: '2026-09-01'
+  method: probed
+position: Provider
 access: 3rd-Party
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/king-saud-university.png
 url: https://raw.githubusercontent.com/api-evangelist/king-saud-university/refs/heads/main/apis.yml
-x-api-posture: docs-gated
+x-api-posture: public-undocumented
 x-api-posture-basis: observed
-x-api-posture-note: "No public API reference, OpenAPI definition, developer portal, or open-data API endpoint could be confirmed."
+x-api-posture-note: >-
+  Public, unauthenticated, machine-readable surfaces exist and were fetched, but
+  the university runs no developer programme around them — Arabic-only guidance on
+  the open-data portal, and nothing at all for the identity plane beyond its own
+  discovery documents.
 tags:
   - Education
   - Higher Education
   - University
+  - Public Research University
   - Saudi Arabia
   - Middle East
+  - Riyadh
+  - Open Data
+  - Research Data
+  - Identity Federation
+  - Single Sign-On
   - Research
+  - Linked Data
 created: '2026-06-03'
-modified: '2026-06-03'
+modified: '2026-09-01'
 specificationVersion: '0.23'
 apis:
-  - aid: king-saud-university:none
-    name: No Public Documented API
+  - aid: king-saud-university:open-data
+    name: KSU Open Data Distribution API
+    x-operator: institution
+    x-operator-basis: >-
+      data.ksu.edu.sa is under the institution's own registrable domain; the
+      portal names its publisher as the King Saud University Data Management
+      Office and the licence names King Saud University as licensor.
     description: >-
-      As of this review, King Saud University exposes no public, documented
-      developer API. University digital services (Edugate SIS, LMS, library
-      catalog, Saudi Digital Library access, manuscripts portal, and general
-      e-services) are end-user web applications requiring institutional
-      authentication. No public API documentation, OpenAPI definition, developer
-      portal, or open-data API endpoint was confirmed. Access to any
-      programmatic interface would require contacting the university directly.
-    humanURL: https://ksu.edu.sa/en
-    tags: [ Gated, No Public API, SSO ]
+      The King Saud University Data Management Office (مكتب إدارة البيانات)
+      publishes institutional open data as stable, unauthenticated HTTP resources
+      on the university's own domain. Seven dataset families — enrolled students
+      and graduates, faculty, administrative and technical staff, outbound
+      scholarships, scientific research (publications, awards and patents,
+      research chairs and scholarly associations, library holdings), student
+      services and activities, and community service including the University
+      Medical City — each released in five formats: JSON, XML, RDF/XML, CSV and
+      XLSX. 852 distribution files are linked from the portal's category pages
+      (219 RDF, 216 XLSX, 213 CSV, 103 JSON, 101 XML); 202 dataset names are
+      enumerated in the university's own reference PDF. Coverage runs from Hijri
+      year 1430/1431 AH to 1444 AH and on into Gregorian 2023-2025, on a declared
+      annual cadence. Verified live 2026-09-01: 20 of 20 sampled files returned
+      HTTP 200 with the correct content type, and the 1444 AH employee dataset
+      returned 11,709 records. The university additionally documents a filtered
+      query endpoint at GET /api/views/data_api; that route is dead, returning
+      {"message":"No route found for \"GET /api/views/data_api\""}, and it is
+      therefore not described in the OpenAPI.
+    humanURL: https://data.ksu.edu.sa/ar
+    baseURL: https://data.ksu.edu.sa
+    tags: [ Open Data, Datasets, JSON, RDF, CSV, Linked Data, No Authentication ]
     properties:
+      - type: OpenAPI
+        url: openapi/king-saud-university-open-data-openapi.yml
       - type: Documentation
-        url: https://ksu.edu.sa/en
+        url: https://data.ksu.edu.sa/ar/node/1163
+      - type: APIReference
+        url: https://data.ksu.edu.sa/ar/api/guide
+      - type: TermsOfService
+        url: https://data.ksu.edu.sa/ar/node/1178
+      - type: JSONSchema
+        url: json-schema/king-saud-university-open-data-datasets-schema.json
+      - type: Examples
+        url: examples/king-saud-university-open-data-examples.yml
+      - type: Lifecycle
+        url: lifecycle/king-saud-university-lifecycle.yml
+  - aid: king-saud-university:identity
+    name: KSU Identity and Access Management (OAuth 2.0 / OpenID Connect / SAML 2.0)
+    x-operator: institution
+    x-operator-basis: >-
+      iam.ksu.edu.sa is under the institution's own registrable domain, the
+      discovery document's issuer is https://iam.ksu.edu.sa, and the SAML entity
+      it fronts is registered to King Saud University with the ksu.edu.sa scope.
+    description: >-
+      King Saud University operates its own authorization server and identity
+      provider, and publishes both discovery documents anonymously: OpenID Connect
+      Discovery 1.0 at /.well-known/openid-configuration and RFC 8414
+      authorization-server metadata at /.well-known/oauth-authorization-server,
+      with a live JWKS at /pf/JWKS. The deployment is PingFederate and advertises
+      authorization code with PKCE (S256), client credentials, refresh token, JWT
+      and SAML2 bearer, token exchange, device code (RFC 8628), CIBA, pushed
+      authorization requests (RFC 9126), introspection (RFC 7662), revocation (RFC
+      7009) and both front- and back-channel logout. Six scopes are declared —
+      openid, profile, email, eportalclaims, eportalWebScope and NoClaim — and the
+      claim set exposes the university's directory attributes plus a StudentName
+      claim. The same deployment answers SP-initiated SAML SSO: requesting
+      lms.ksu.edu.sa returns a SAML AuthnRequest posted to
+      iam.ksu.edu.sa/idp/startSSO.ping. Discoverable is not open: the advertised
+      client registration endpoint returns 404 to an anonymous request, and the
+      university publishes no documentation for this surface at all.
+    humanURL: https://iam.ksu.edu.sa/.well-known/openid-configuration
+    baseURL: https://iam.ksu.edu.sa
+    tags: [ Identity, Authentication, OAuth 2.0, OpenID Connect, SAML, Single Sign-On, Not Self-Service ]
+    properties:
+      - type: OpenAPI
+        url: openapi/king-saud-university-identity-openapi.yml
+      - type: OpenIDConnectDiscovery
+        url: https://iam.ksu.edu.sa/.well-known/openid-configuration
+      - type: AuthorizationServerMetadata
+        url: https://iam.ksu.edu.sa/.well-known/oauth-authorization-server
+      - type: JWKS
+        url: https://iam.ksu.edu.sa/pf/JWKS
       - type: Authentication
-        url: https://edugate.ksu.edu.sa/ksu/init
+        url: authentication/king-saud-university-authentication.yml
+      - type: Scopes
+        url: scopes/king-saud-university-scopes.yml
+  - aid: king-saud-university:edugain-idp
+    name: King Saud University identity provider in eduGAIN (via Maeen)
+    x-operator: federation
+    x-operator-basis: >-
+      A federation aggregate is shared by definition; the identity provider whose
+      metadata it carries is King Saud University's own.
+    description: >-
+      King Saud University's SAML 2.0 identity provider is published into the
+      eduGAIN interfederation metadata by the Maeen Identity Federation
+      (https://www.maeen.sa, federation code SA-MIF, an eduGAIN member since
+      2019-07-02). The entity is entityID
+      http://SSO.ksu.edu.sa/adfs/services/trust, role IDPSSODescriptor, English
+      display name "King Saud University", scope ksu.edu.sa, first seen in eduGAIN
+      on 2020-02-02. The metadata itself lives in the eduGAIN aggregate at
+      https://mds.edugain.org/edugain-v2.xml, served as
+      application/samlmetadata+xml. This is a machine-readable, institution-owned
+      identity surface — one of the strongest a university has, and the class this
+      cohort was most completely missing. The entityID retains an ADFS-shaped
+      identifier from before the university's migration to PingFederate, which is
+      correct practice: a SAML entityID is a name, not a location.
+    humanURL: https://technical.edugain.org/entities?id=671188
+    tags: [ Identity Federation, eduGAIN, SAML, Shibboleth Metadata, Maeen, Saudi Arabia ]
+    properties:
+      - type: IdentityFederation
+        url: https://technical.edugain.org/entities?id=671188
+      - type: Metadata
+        url: https://mds.edugain.org/edugain-v2.xml
+      - type: RegistrationAuthority
+        url: https://www.maeen.sa/
+      - type: Conformance
+        url: conformance/king-saud-university-conformance.yml
+  - aid: king-saud-university:crossref
+    name: Crossref membership and DOI prefix
+    x-operator: registry
+    x-operator-basis: >-
+      Crossref is an identifier registry the institution is registered in. The
+      registry's own contract is not King Saud University's; the membership is.
+    description: >-
+      King Saud University is Crossref member 19827 and owns DOI prefix 10.33948,
+      under which Crossref reports 1,521 registered DOIs (354 current, 1,167
+      backfile) as of 2026-09-01. The university's scholarly journals are
+      administered by its Scientific Journals Department at journals.ksu.edu.sa;
+      the flagship Journal of King Saud University series is published through
+      Elsevier, so the hosting platform is a vendor's while the registrant is the
+      institution.
+    humanURL: https://api.crossref.org/members/19827
+    tags: [ Crossref, DOI, Scholarly Publishing, Registry Membership ]
+    properties:
+      - type: RegistryRecord
+        url: https://api.crossref.org/members/19827
+      - type: Prefix
+        url: https://api.crossref.org/prefixes/10.33948
+      - type: Website
+        url: https://journals.ksu.edu.sa/ar
+  - aid: king-saud-university:ror
+    name: Research Organization Registry identifier
+    x-operator: registry
+    x-operator-basis: >-
+      ROR is an identifier registry the institution is registered in; the ROR API
+      belongs to ROR, the record belongs to King Saud University.
+    description: >-
+      King Saud University is registered in the Research Organization Registry as
+      https://ror.org/02f81g417, the canonical machine-readable identifier for the
+      institution in scholarly infrastructure. Confirmed against the ROR v2 API on
+      2026-09-01.
+    humanURL: https://ror.org/02f81g417
+    tags: [ ROR, Persistent Identifier, Registry Membership, Research Infrastructure ]
+    properties:
+      - type: RegistryRecord
+        url: https://api.ror.org/v2/organizations/02f81g417
+      - type: Identifier
+        url: https://ror.org/02f81g417
+  - aid: king-saud-university:blackboard-lms
+    name: KSU learning management system (Blackboard Learn SaaS tenancy)
+    x-operator: tenant
+    x-operator-basis: >-
+      lms.ksu.edu.sa is a CNAME to ksu.blackboard.com, which resolves onward into
+      Anthology's Blackboard Learn SaaS estate
+      (learn.6933129eab8d1.euc1.prod-01.core.blackboard.com). The hostname is the
+      university's; the platform and its contract are Anthology's.
+    description: >-
+      King Saud University's learning management system is a Blackboard Learn SaaS
+      tenancy fronted by a university hostname. Requesting it returns a SAML
+      AuthnRequest to the university's own identity provider, which makes the
+      tenancy genuine and the identity institution-operated. No contract is saved
+      here: any API, LTI capability or specification for this platform is
+      Anthology's engineering, not KSU's, and belongs to Anthology's own profile.
+      Recorded because a tenancy is a real institutional fact and one of the few
+      programmable surfaces most universities have.
+    humanURL: https://lms.ksu.edu.sa/
+    tags: [ Learning Management System, Blackboard, Anthology, Tenant, SAML ]
+    properties:
+      - type: Website
+        url: https://lms.ksu.edu.sa/
 common:
-  - type: DomainSecurity
-    url: security/king-saud-university-domain-security.yml
   - type: Website
     url: https://ksu.edu.sa/en
+  - type: OpenData
+    url: https://data.ksu.edu.sa/ar
+  - type: APIReference
+    url: https://data.ksu.edu.sa/ar/api/guide
+  - type: Documentation
+    url: https://data.ksu.edu.sa/ar/node/1163
+  - type: TermsOfService
+    url: https://ksu.edu.sa/ar/terms
+  - type: PrivacyPolicy
+    url: https://ksu.edu.sa/ar/privacy
+  - type: IdentityFederation
+    url: https://technical.edugain.org/entities?id=671188
+  - type: Authentication
+    url: https://iam.ksu.edu.sa/.well-known/openid-configuration
+  - type: AIPolicy
+    url: https://aio.ksu.edu.sa/ar/node/2976
+  - type: AITooling
+    url: https://thakaa.ksu.edu.sa/en
+  - type: LibraryCatalog
+    url: https://library.ksu.edu.sa/en
+  - type: Blog
+    url: https://news.ksu.edu.sa/ar
+  - type: Support
+    url: https://ksu.edu.sa/en/apps
   - type: LinkedIn
     url: https://www.linkedin.com/school/king-saud-university/
   - type: Twitter
     url: https://x.com/_KSU
-  - type: Authentication
-    url: https://edugate.ksu.edu.sa/ksu/init
+  - type: DomainSecurity
+    url: security/king-saud-university-domain-security.yml
   - type: Plans
     url: plans/king-saud-university-plans-pricing.yml
   - type: RateLimits
     url: rate-limits/king-saud-university-rate-limits.yml
   - type: FinOps
     url: finops/king-saud-university-finops.yml
+  - type: Conformance
+    url: conformance/king-saud-university-conformance.yml
+  - type: Lifecycle
+    url: lifecycle/king-saud-university-lifecycle.yml
   - type: Review
     url: review.yml
+x-coverage:
+  state: covered
+  reason: covered
+  detail: >-
+    Two institution-operated, machine-readable surfaces were found, fetched and
+    described: the KSU Open Data distribution programme at data.ksu.edu.sa (852
+    files, five formats, unauthenticated, 20 of 20 sampled files live) and the
+    university's own OAuth 2.0 / OpenID Connect / SAML identity plane at
+    iam.ksu.edu.sa (discovery documents and JWKS all served anonymously). Both
+    were missed by the 2026-06-03 review because every piece of guidance for them
+    is Arabic-only — data.ksu.edu.sa/en/api/guide is a 404 while
+    data.ksu.edu.sa/ar/api/guide is a 200. Three relationships were recorded
+    rather than credited as contracts: eduGAIN/Maeen federation membership,
+    Crossref membership with prefix 10.33948, and a ROR identifier. One tenancy
+    was recorded and its contract deliberately not saved: lms.ksu.edu.sa is a
+    CNAME to ksu.blackboard.com (Anthology Blackboard Learn SaaS). Three claimed
+    surfaces are dead and are not carried as pointers: the DSpace repository and
+    its OAI-PMH endpoint at repository.ksu.edu.sa (NXDOMAIN, though ROAR still
+    lists it), the library catalogue at catalog.library.ksu.edu.sa (resolves, TCP
+    connection fails), and edugate.ksu.edu.sa (timed out on three consecutive
+    attempts, having returned 200 in June). One Figshare false positive was
+    tested and rejected: ksu.figshare.com answers HTTP 202 with an AWS WAF
+    challenge, but so does a control request to a deliberately nonexistent
+    subdomain, so it is not evidence of a KSU tenancy and none is recorded. What
+    the university genuinely lacks is a developer programme — no portal, no
+    English documentation, no OpenAPI, no apis.json, no llms.txt, no agent card,
+    no status page, and an advertised OAuth client-registration endpoint that
+    answers 404.
+  evidence:
+    - url: https://data.ksu.edu.sa/ar/api/guide
+      status: 200
+    - url: https://data.ksu.edu.sa/en/api/guide
+      status: 404
+    - url: https://data.ksu.edu.sa/sites/data.ksu.edu.sa/files/users/user976/KSU-DMO-OD-DATASET-Employees-1444-AH.json
+      status: 200
+    - url: https://data.ksu.edu.sa/api/views/data_api?display_id=employees&limit=3&_format=json
+      status: 404
+    - url: https://iam.ksu.edu.sa/.well-known/openid-configuration
+      status: 200
+    - url: https://iam.ksu.edu.sa/.well-known/oauth-authorization-server
+      status: 200
+    - url: https://iam.ksu.edu.sa/pf/JWKS
+      status: 200
+    - url: https://iam.ksu.edu.sa/as/clients.oauth2
+      status: 404
+    - url: https://mds.edugain.org/edugain-v2.xml
+      status: 200
+    - url: https://api.crossref.org/members/19827
+      status: 200
+    - url: https://ror.org/02f81g417
+      status: 200
+    - url: https://lms.ksu.edu.sa/
+      status: 200
+    - url: https://repository.ksu.edu.sa/
+      status: 0
+    - url: https://catalog.library.ksu.edu.sa/
+      status: 0
+    - url: https://edugate.ksu.edu.sa/ksu/init
+      status: 0
+    - url: https://ksu.edu.sa/apis.json
+      status: 404
+    - url: https://ksu.edu.sa/llms.txt
+      status: 404
+    - url: https://ksu.edu.sa/.well-known/agent-card.json
+      status: 404
+    - url: https://ksu.edu.sa/.well-known/security.txt
+      status: 404
+  checked: '2026-09-01'
+x-enrichment:
+  pipeline: pipeline-university
+  run: '2026-09-01'
+  note: >-
+    Re-profiled under the university pipeline's operator axis. The 2026-06-03
+    profile recorded a single "No Public Documented API" entry; that entry is
+    withdrawn as factually wrong. No vendor contract was added to this repo and
+    none was found in it.
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
