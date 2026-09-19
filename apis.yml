@@ -72,6 +72,20 @@ tags:
   - Open Data
   - Research Data
   - Identity Federation
+  - SSO
+  - Research
+  - Linked Data
+tags_raw:
+  - Education
+  - Higher Education
+  - University
+  - Public Research University
+  - Saudi Arabia
+  - Middle East
+  - Riyadh
+  - Open Data
+  - Research Data
+  - Identity Federation
   - Single Sign-On
   - Research
   - Linked Data
@@ -174,6 +188,12 @@ apis:
     one of the few programmable surfaces most universities have.
   humanURL: https://lms.ksu.edu.sa/
   tags:
+  - Learning Management System
+  - Blackboard
+  - Anthology
+  - Tenants
+  - SAML
+  tags_raw:
   - Learning Management System
   - Blackboard
   - Anthology
