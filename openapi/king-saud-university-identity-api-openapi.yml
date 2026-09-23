@@ -1,0 +1,525 @@
+openapi: 3.2.0
+info:
+  title: King Saud University and Access Management (OAuth 2.0 /…
+  version: '1.0'
+  summary: The publicly discoverable OAuth 2.0 authorization server and OpenID Connect provider operated by King Saud University at iam.ksu.edu.sa.
+  description: 'King Saud University operates its own OAuth 2.0 authorization server and OpenID Connect provider on its own domain, and publishes both discovery documents anonymously: https://iam.ksu.edu.sa/.well-known/openid-configuration (OpenID Connect Discovery 1.0) and https://iam.ksu.edu.sa/.well-known/oauth-authorization-server (RFC 8414).'
+  contact:
+    name: King Saud University
+    url: https://ksu.edu.sa/en
+  x-operator: institution
+  x-operator-basis: iam.ksu.edu.sa is under the institution's own registrable domain ksu.edu.sa, the discovery document's issuer is https://iam.ksu.edu.sa, and the SAML entity it fronts is registered to King Saud University in eduGAIN with the ksu.edu.sa scope.
+  x-provenance:
+    generated: '2026-09-01'
+    method: derived
+    source: Derived from https://iam.ksu.edu.sa/.well-known/openid-configuration and https://iam.ksu.edu.sa/.well-known/oauth-authorization-server, both fetched anonymously on 2026-09-01 and stored verbatim in authentication/king-saud-university-openid-configuration.json and authentication/king-saud-university-oauth-authorization-server.json. Endpoint behaviour confirmed by live probe.
+servers:
+- url: https://iam.ksu.edu.sa
+  description: King Saud University identity provider (PingFederate).
+security:
+- oauth2: []
+tags:
+- name: Identity
+  description: OAuth 2.0 and OpenID Connect endpoints of the King Saud University authorization server.
+paths:
+  /.well-known/openid-configuration:
+    get:
+      operationId: getOpenIdConfiguration
+      summary: OpenID Connect discovery document
+      description: Verified live 2026-09-01 — HTTP 200, application/json, 6,491 bytes.
+      tags:
+      - Identity
+      security: []
+      responses:
+        '200':
+          description: The provider's OpenID Connect Discovery 1.0 metadata.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProviderMetadata'
+  /.well-known/oauth-authorization-server:
+    get:
+      operationId: getAuthorizationServerMetadata
+      summary: OAuth 2.0 authorization server metadata (RFC 8414)
+      description: Verified live 2026-09-01 — HTTP 200, application/json, 4,560 bytes.
+      tags:
+      - Identity
+      security: []
+      responses:
+        '200':
+          description: The authorization server's RFC 8414 metadata.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProviderMetadata'
+  /pf/JWKS:
+    get:
+      operationId: getJwks
+      summary: JSON Web Key Set
+      description: Signing keys used to verify ID tokens and signed responses. Verified live 2026-09-01 — HTTP 200, application/json, EC keys with alg ES256.
+      tags:
+      - Identity
+      security: []
+      responses:
+        '200':
+          description: The provider's JWKS.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Jwks'
+  /as/authorization.oauth2:
+    get:
+      operationId: authorize
+      summary: Authorization endpoint
+      description: Starts an authorization-code, implicit or hybrid flow. PKCE is supported with both `plain` and `S256`. Probed anonymously on 2026-09-01 with no parameters and returned HTTP 400, the correct response to a malformed request.
+      tags:
+      - Identity
+      security: []
+      parameters:
+      - name: response_type
+        in: query
+        required: true
+        schema:
+          type: string
+          enum:
+          - code
+          - token
+          - id_token
+          - code token
+          - code id_token
+          - token id_token
+          - code token id_token
+      - name: client_id
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: redirect_uri
+        in: query
+        required: true
+        schema:
+          type: string
+          format: uri
+      - name: scope
+        in: query
+        required: false
+        schema:
+          type: string
+          description: Space-delimited. See scopes/king-saud-university-scopes.yml.
+      - name: state
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: nonce
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: code_challenge
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: code_challenge_method
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - plain
+          - S256
+      - name: prompt
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - none
+          - login
+          - consent
+          - create
+      - name: response_mode
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - fragment
+          - fragment.jwt
+          - query
+          - query.jwt
+          - form_post
+          - form_post.jwt
+          - jwt
+          - pi.flow
+      responses:
+        '302':
+          description: Redirect back to the client with a code, token or error.
+        '400':
+          description: Malformed or missing required parameters.
+          content:
+            text/html:
+              schema:
+                type: string
+  /as/par.oauth2:
+    post:
+      operationId: pushAuthorizationRequest
+      summary: Pushed authorization request endpoint (RFC 9126)
+      description: Advertised by the discovery document. `require_pushed_authorization_requests` is false, so PAR is available but not mandatory.
+      tags:
+      - Identity
+      responses:
+        '201':
+          description: Request URI issued.
+        '400':
+          description: Invalid request.
+  /as/token.oauth2:
+    post:
+      operationId: token
+      summary: Token endpoint
+      description: Issues access, refresh and ID tokens. Probed with GET on 2026-09-01 and returned HTTP 405, confirming the endpoint exists and is POST-only.
+      tags:
+      - Identity
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                grant_type:
+                  type: string
+                  enum:
+                  - authorization_code
+                  - refresh_token
+                  - client_credentials
+                  - password
+                  - implicit
+                  - urn:pingidentity.com:oauth2:grant_type:validate_bearer
+                  - urn:ietf:params:oauth:grant-type:jwt-bearer
+                  - urn:ietf:params:oauth:grant-type:saml2-bearer
+                  - urn:ietf:params:oauth:grant-type:device_code
+                  - urn:ietf:params:oauth:grant-type:token-exchange
+                  - urn:openid:params:grant-type:ciba
+                code:
+                  type: string
+                redirect_uri:
+                  type: string
+                  format: uri
+                refresh_token:
+                  type: string
+                code_verifier:
+                  type: string
+                scope:
+                  type: string
+              required:
+              - grant_type
+      responses:
+        '200':
+          description: Token response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenResponse'
+        '400':
+          description: OAuth 2.0 error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OAuthError'
+        '405':
+          description: Method not allowed — the endpoint accepts POST only.
+  /as/introspect.oauth2:
+    post:
+      operationId: introspect
+      summary: Token introspection endpoint (RFC 7662)
+      tags:
+      - Identity
+      responses:
+        '200':
+          description: Introspection response.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  active:
+                    type: boolean
+                additionalProperties: true
+        '401':
+          description: Client authentication failed.
+  /as/revoke_token.oauth2:
+    post:
+      operationId: revokeToken
+      summary: Token revocation endpoint (RFC 7009)
+      tags:
+      - Identity
+      responses:
+        '200':
+          description: Token revoked, or was already invalid.
+        '400':
+          description: Invalid request.
+  /as/device_authz.oauth2:
+    post:
+      operationId: deviceAuthorization
+      summary: Device authorization endpoint (RFC 8628)
+      tags:
+      - Identity
+      responses:
+        '200':
+          description: Device and user codes issued.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  device_code:
+                    type: string
+                  user_code:
+                    type: string
+                  verification_uri:
+                    type: string
+                    format: uri
+                  expires_in:
+                    type: integer
+                  interval:
+                    type: integer
+        '400':
+          description: Invalid request.
+  /as/bc-auth.ciba:
+    post:
+      operationId: backchannelAuthenticate
+      summary: CIBA backchannel authentication endpoint
+      description: Delivery modes advertised are `poll` and `ping`.
+      tags:
+      - Identity
+      responses:
+        '200':
+          description: Authentication request acknowledged.
+        '400':
+          description: Invalid request.
+  /idp/userinfo.openid:
+    get:
+      operationId: getUserInfo
+      summary: UserInfo endpoint
+      description: Returns claims about the authenticated end user. Probed anonymously on 2026-09-01 and returned HTTP 401 with the JSON body `{"status":401, "message":"Unauthorized"}`.
+      tags:
+      - Identity
+      security:
+      - bearerAuth: []
+      responses:
+        '200':
+          description: Claims for the subject of the access token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserInfo'
+        '401':
+          description: Missing or invalid access token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PingError'
+  /idp/init_logout.openid:
+    get:
+      operationId: endSession
+      summary: RP-initiated logout endpoint
+      description: Front-channel and back-channel logout are both advertised as supported.
+      tags:
+      - Identity
+      security: []
+      responses:
+        '302':
+          description: Redirect after logout.
+  /idp/startSSO.ping:
+    get:
+      operationId: startSamlSso
+      summary: SP-initiated SAML 2.0 single sign-on
+      description: 'The SAML side of the same identity provider. Confirmed in use on 2026-09-01: requesting https://lms.ksu.edu.sa/ returns a self-submitting SAML AuthnRequest whose form action is `https://iam.ksu.edu.sa/idp/startSSO.ping?PartnerSpId=https%3A%2F%2Flms.ksu.edu.sa`. Called without a PartnerSpId it returns HTTP 500.'
+      tags:
+      - Identity
+      security: []
+      parameters:
+      - name: PartnerSpId
+        in: query
+        required: true
+        description: The SAML entityID of the service provider requesting authentication.
+        schema:
+          type: string
+      responses:
+        '302':
+          description: Redirect into the login flow.
+        '500':
+          description: No PartnerSpId supplied.
+components:
+  schemas:
+    ProviderMetadata:
+      type: object
+      description: OpenID Connect / RFC 8414 provider metadata.
+      properties:
+        issuer:
+          type: string
+          format: uri
+          examples:
+          - https://iam.ksu.edu.sa
+        authorization_endpoint:
+          type: string
+          format: uri
+        token_endpoint:
+          type: string
+          format: uri
+        userinfo_endpoint:
+          type: string
+          format: uri
+        jwks_uri:
+          type: string
+          format: uri
+        registration_endpoint:
+          type: string
+          format: uri
+        scopes_supported:
+          type: array
+          items:
+            type: string
+        claims_supported:
+          type: array
+          items:
+            type: string
+        grant_types_supported:
+          type: array
+          items:
+            type: string
+        code_challenge_methods_supported:
+          type: array
+          items:
+            type: string
+      required:
+      - issuer
+      - authorization_endpoint
+      - token_endpoint
+      - jwks_uri
+      additionalProperties: true
+    UserInfo:
+      type: object
+      description: Claim names below are exactly the `claims_supported` array from the university's own discovery document, including its Active Directory passthrough claims.
+      properties:
+        sub:
+          type: string
+        name:
+          type: string
+        given_name:
+          type: string
+        family_name:
+          type: string
+        preferred_username:
+          type: string
+        email:
+          type: string
+        email_verified:
+          type: boolean
+        mail:
+          type: string
+        mobile:
+          type: string
+        phone_number:
+          type: string
+        gender:
+          type: string
+        locale:
+          type: string
+        sAMAccountName:
+          type: string
+        userPrincipalName:
+          type: string
+        StudentName:
+          type: string
+      additionalProperties: true
+    PingError:
+      type: object
+      description: The error shape actually returned by this deployment.
+      properties:
+        status:
+          type: integer
+          examples:
+          - 401
+        message:
+          type: string
+          examples:
+          - Unauthorized
+      required:
+      - status
+      - message
+    OAuthError:
+      type: object
+      properties:
+        error:
+          type: string
+        error_description:
+          type: string
+      required:
+      - error
+    Jwks:
+      type: object
+      properties:
+        keys:
+          type: array
+          items:
+            type: object
+            properties:
+              kty:
+                type: string
+              kid:
+                type: string
+              use:
+                type: string
+              alg:
+                type: string
+            additionalProperties: true
+      required:
+      - keys
+    TokenResponse:
+      type: object
+      properties:
+        access_token:
+          type: string
+        token_type:
+          type: string
+          examples:
+          - Bearer
+        expires_in:
+          type: integer
+        refresh_token:
+          type: string
+        id_token:
+          type: string
+        scope:
+          type: string
+      required:
+      - access_token
+      - token_type
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: An OAuth 2.0 access token issued by https://iam.ksu.edu.sa.
+    oauth2:
+      type: oauth2
+      description: There is no public client registration — the advertised registration_endpoint returned 404 anonymously on 2026-09-01. Client credentials are issued by the university.
+      flows:
+        authorizationCode:
+          authorizationUrl: https://iam.ksu.edu.sa/as/authorization.oauth2
+          tokenUrl: https://iam.ksu.edu.sa/as/token.oauth2
+          refreshUrl: https://iam.ksu.edu.sa/as/token.oauth2
+          scopes:
+            openid: Request an OpenID Connect ID token.
+            profile: Basic profile claims.
+            email: Email address claims.
+            eportalclaims: King Saud University e-portal claim set.
+            eportalWebScope: King Saud University e-portal web scope.
+            NoClaim: Issue a token carrying no claims.
+        clientCredentials:
+          tokenUrl: https://iam.ksu.edu.sa/as/token.oauth2
+          scopes:
+            eportalWebScope: King Saud University e-portal web scope.

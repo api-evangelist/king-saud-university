@@ -1,0 +1,317 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/king-saud-university/refs/heads/main/json-schema/king-saud-university-open-data-datasets-schema.json",
+  "title": "King Saud University Open Data — dataset record shapes",
+  "description": "Record shapes for the open datasets published by the King Saud University Data Management Office at https://data.ksu.edu.sa. Each dataset is a JSON array of flat objects whose property names are Arabic labels chosen by the publisher; no property is shared across all families, so there is one definition per family. Every definition below was derived by fetching the live 1444 AH JSON distribution on 2026-09-01 and reading its first record and length — nothing here is inferred from documentation. Note the publisher's own typing inconsistency: some numeric measures arrive as JSON numbers and some as strings; the schemas record what was actually served.",
+  "x-provenance": {
+    "generated": "2026-09-01",
+    "method": "derived",
+    "source": "Live fetch of eight 1444 AH JSON distributions under https://data.ksu.edu.sa/sites/data.ksu.edu.sa/files/users/user976/"
+  },
+  "x-operator": "institution",
+  "type": "array",
+  "items": {
+    "$ref": "#/$defs/DatasetRecord"
+  },
+  "$defs": {
+    "DatasetRecord": {
+      "type": "object",
+      "description": "Generic open-data record; see the per-family definitions for verified shapes.",
+      "additionalProperties": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "number"
+          }
+        ]
+      }
+    },
+    "EmployeesRecord": {
+      "type": "object",
+      "title": "EmployeesRecord",
+      "description": "Administrative and technical staff (الموظفون الإداريون والفنيون), Hijri year 1444",
+      "x-dataset": "KSU-DMO-OD-DATASET-Employees-1444-AH",
+      "x-record-count-observed": 11709,
+      "properties": {
+        "المؤهل العلمي": {
+          "type": "string",
+          "examples": [
+            "البكالوريوس"
+          ]
+        },
+        "الجنس": {
+          "type": "string",
+          "examples": [
+            "أنثى"
+          ]
+        },
+        "المجموعة الوظيفية": {
+          "type": "string",
+          "examples": [
+            "إداري وفني"
+          ]
+        }
+      },
+      "required": [
+        "المؤهل العلمي",
+        "الجنس",
+        "المجموعة الوظيفية"
+      ],
+      "additionalProperties": false
+    },
+    "FacultyRecord": {
+      "type": "object",
+      "title": "FacultyRecord",
+      "description": "Faculty members and equivalent (أعضاء هيئة التدريس ومن في حكمهم), Hijri year 1444",
+      "x-dataset": "KSU-DMO-OD-DATASET-Faculty-1444-AH",
+      "x-record-count-observed": 6524,
+      "properties": {
+        "الكلية": {
+          "type": "string",
+          "examples": [
+            "الآداب"
+          ]
+        },
+        "الجنس": {
+          "type": "string",
+          "examples": [
+            "أنثى"
+          ]
+        },
+        "المرتبة العلمية": {
+          "type": "string",
+          "examples": [
+            "معيد"
+          ]
+        },
+        "المؤهل العلمي": {
+          "type": "string",
+          "examples": [
+            "البكالوريوس"
+          ]
+        }
+      },
+      "required": [
+        "الكلية",
+        "الجنس",
+        "المرتبة العلمية",
+        "المؤهل العلمي"
+      ],
+      "additionalProperties": false
+    },
+    "ScholarshipStudentRecord": {
+      "type": "object",
+      "title": "ScholarshipStudentRecord",
+      "description": "Students on outbound scholarship (المبتعثون للخارج), Hijri year 1444",
+      "x-dataset": "KSU-DMO-OD-DATASET-Scholarships-Students-1444-AH",
+      "x-record-count-observed": 432,
+      "properties": {
+        "مؤهل الابتعاث": {
+          "type": "string",
+          "examples": [
+            "الماجستير"
+          ]
+        },
+        "دولة الابتعاث": {
+          "type": "string",
+          "examples": [
+            "استراليا"
+          ]
+        },
+        "الكلية": {
+          "type": "string",
+          "examples": [
+            "الأمير سلطان بن عبدالعزيز للخدمات الطبية الطارئة"
+          ]
+        },
+        "الجنس": {
+          "type": "string",
+          "examples": [
+            "ذكر"
+          ]
+        }
+      },
+      "required": [
+        "مؤهل الابتعاث",
+        "دولة الابتعاث",
+        "الكلية",
+        "الجنس"
+      ],
+      "additionalProperties": false
+    },
+    "LibraryHoldingsRecord": {
+      "type": "object",
+      "title": "LibraryHoldingsRecord",
+      "description": "University library holdings by subject (مقتنيات المكتبات), Hijri year 1444",
+      "x-dataset": "KSU-DMO-OD-DATASET-SciResearch-Libraries-Holdings-1444-AH",
+      "x-record-count-observed": 11,
+      "properties": {
+        "الموضوعات": {
+          "type": "string",
+          "examples": [
+            "الكتب"
+          ]
+        },
+        "عدد العناوين": {
+          "type": "string",
+          "examples": [
+            "511143"
+          ]
+        },
+        "عدد المجلدات": {
+          "type": "string",
+          "examples": [
+            "1636188"
+          ]
+        }
+      },
+      "required": [
+        "الموضوعات",
+        "عدد العناوين",
+        "عدد المجلدات"
+      ],
+      "additionalProperties": false
+    },
+    "MedicalCityRecord": {
+      "type": "object",
+      "title": "MedicalCityRecord",
+      "description": "University Medical City service volumes (المدينة الطبية الجامعية), Hijri year 1444",
+      "x-dataset": "KSU-DMO-OD-DATASET-CommunityService-MedCity-1444-AH",
+      "x-record-count-observed": 6,
+      "properties": {
+        "نوع  الخدمة": {
+          "type": "string",
+          "examples": [
+            "عدد مراجعي (زوار) العيادات الخارجية"
+          ]
+        },
+        "مستشفى الملك خالد الجامعي": {
+          "type": "string",
+          "examples": [
+            "501659"
+          ]
+        },
+        "مستشفى الملك عبدالعزيز الجامعي": {
+          "type": "string",
+          "examples": [
+            "126608"
+          ]
+        },
+        "مستشفى طب الأسنان الجامعي": {
+          "type": "string",
+          "examples": [
+            "244017"
+          ]
+        }
+      },
+      "required": [
+        "نوع  الخدمة",
+        "مستشفى الملك خالد الجامعي",
+        "مستشفى الملك عبدالعزيز الجامعي",
+        "مستشفى طب الأسنان الجامعي"
+      ],
+      "additionalProperties": false
+    },
+    "StudentServicesRecord": {
+      "type": "object",
+      "title": "StudentServicesRecord",
+      "description": "Services provided to students (الخدمات المقدمة للطلاب), Hijri year 1444",
+      "x-dataset": "KSU-DMO-OD-DATASET-StudentServices-Services-1444-AH",
+      "x-record-count-observed": 5,
+      "properties": {
+        "نوع  الخدمة  ": {
+          "type": "string",
+          "examples": [
+            "توجيه وإرشاد"
+          ]
+        },
+        "عدد الخدمات المقدمة": {
+          "type": "number",
+          "examples": [
+            4
+          ]
+        },
+        "عدد المستفيدين والمستفيدات ": {
+          "type": "number",
+          "examples": [
+            4967
+          ]
+        }
+      },
+      "required": [
+        "نوع  الخدمة  ",
+        "عدد الخدمات المقدمة",
+        "عدد المستفيدين والمستفيدات "
+      ],
+      "additionalProperties": false
+    },
+    "ChairsAndAssociationsRecord": {
+      "type": "object",
+      "title": "ChairsAndAssociationsRecord",
+      "description": "Research chairs and scholarly associations (كراسي البحث والجمعيات العلمية), Hijri year 1444",
+      "x-dataset": "KSU-DMO-OD-DATASET-SciResearch-Chairs-And-Associations-1444-AH",
+      "x-record-count-observed": 4,
+      "properties": {
+        "المجال": {
+          "type": "string",
+          "examples": [
+            "الإنساني"
+          ]
+        },
+        "كراسي البحث": {
+          "type": "string",
+          "examples": [
+            "11"
+          ]
+        },
+        "الجمعيات العلمية": {
+          "type": "string",
+          "examples": [
+            "17"
+          ]
+        }
+      },
+      "required": [
+        "المجال",
+        "كراسي البحث",
+        "الجمعيات العلمية"
+      ],
+      "additionalProperties": false
+    },
+    "CommunityTrainingRecord": {
+      "type": "object",
+      "title": "CommunityTrainingRecord",
+      "description": "Community training courses and programmes (الدورات والبرامج التدريبية), Hijri year 1444",
+      "x-dataset": "KSU-DMO-OD-DATASET-CommunityService-Training-1444-AH",
+      "x-record-count-observed": 9,
+      "properties": {
+        "نوع  التدريب": {
+          "type": "string",
+          "examples": [
+            "المهارات التعليمية"
+          ]
+        },
+        "عدد الدورات والبرامج المنفذة": {
+          "type": "string",
+          "examples": [
+            "96"
+          ]
+        },
+        "عدد المستفيدين والمستفيدات": {
+          "type": "string",
+          "examples": [
+            "1570"
+          ]
+        }
+      },
+      "required": [
+        "نوع  التدريب",
+        "عدد الدورات والبرامج المنفذة",
+        "عدد المستفيدين والمستفيدات"
+      ],
+      "additionalProperties": false
+    }
+  }
+}

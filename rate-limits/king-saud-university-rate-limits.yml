@@ -4,7 +4,7 @@ schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main
 provider: King Saud University
 providerId: king-saud-university
 created: '2026-06-03'
-modified: '2026-06-03'
+modified: '2026-09-01'
 reconciled: false
 tags:
 - Education
@@ -12,24 +12,44 @@ tags:
 - University
 - Rate Limiting
 description: >-
-  King Saud University does not publish a unified public rate-limit table across its APIs. Open
-  metadata and harvesting endpoints (OAI-PMH, IIIF, library) may throttle large-scale
-  or automated harvesting; clients should harvest politely, honor Retry-After, and
-  contact the relevant service for bulk access.
-notes: Confirm per-service limits with each API's documentation; harvest responsibly.
+  King Saud University publishes no rate-limit policy for any of its surfaces. The
+  Open Data distributions at data.ksu.edu.sa are static files served by Drupal; 20
+  consecutive anonymous requests on 2026-09-01, including two multi-megabyte JSON
+  fetches, all returned HTTP 200 with no throttling headers, no Retry-After and no
+  429. The identity plane at iam.ksu.edu.sa publishes no documented limits either.
+  Absence of an observed limit is not a guarantee of an unlimited service — treat
+  bulk retrieval politely and cache, since these datasets are refreshed annually.
+notes: >-
+  Corrected 2026-09-01. The previous version of this file referenced OAI-PMH and
+  IIIF harvesting endpoints; King Saud University operates neither. Its only
+  former OAI-PMH endpoint, at repository.ksu.edu.sa, is NXDOMAIN.
+method: probed
 sources:
+- https://data.ksu.edu.sa/ar/api/guide
 - https://raw.githubusercontent.com/api-evangelist/king-saud-university/refs/heads/main/apis.yml
 responseCodes:
   throttled: 429
 limits:
-- name: Default
+- name: Open Data distributions
   scope: client
-  metric: requests-per-minute
-  limit: see service documentation
-  notes: No published global limit; large harvests may be rate-limited.
+  metric: requests
+  limit: none observed
+  notes: >-
+    No published limit and none observed. Probed 2026-09-01 across 20 files with
+    no throttling response.
+- name: Identity plane
+  scope: client
+  metric: requests
+  limit: not published
+  notes: >-
+    iam.ksu.edu.sa publishes no rate-limit documentation. Endpoints are not
+    self-service, so limits would be set per issued client.
 policies:
 - name: Backoff Strategy
-  description: Exponential backoff with jitter; honor Retry-After; harvest during off-peak hours.
+  description: >-
+    No provider policy exists. Recommended client practice only: exponential
+    backoff with jitter, honour any Retry-After, and cache annually-refreshed
+    datasets rather than re-fetching.
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com

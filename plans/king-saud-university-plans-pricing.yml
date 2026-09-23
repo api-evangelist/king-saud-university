@@ -4,7 +4,7 @@ schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main
 provider: King Saud University
 providerId: king-saud-university
 created: '2026-06-03'
-modified: '2026-06-03'
+modified: '2026-09-01'
 reconciled: false
 tags:
 - Education
@@ -12,22 +12,29 @@ tags:
 - University
 - Plans
 description: >-
-  King Saud University is a non-commercial higher-education institution; its APIs are not sold
-  as a commercial product. Public APIs (library, repository, course, and open-metadata
-  interfaces) are offered free of charge, typically for non-commercial use. Most
-  administrative and identity APIs are not openly self-service and require institutional
-  affiliation, credentials, or federation membership rather than a paid plan.
+  King Saud University is a non-commercial public institution and sells nothing
+  programmable. Its Open Data distribution surface at data.ksu.edu.sa is free and
+  entirely unauthenticated — no account, key or registration — and is governed by
+  the KSU Open Data Licence, which grants use "to all persons without
+  discrimination or charge" in return for source attribution. Its identity plane
+  at iam.ksu.edu.sa is also free, but it is not self-service: the OAuth client
+  registration endpoint it advertises returned HTTP 404 to an anonymous request on
+  2026-09-01, so a client must be issued by the university.
 notes: >-
-  No published per-seat or per-call commercial pricing. "Free / Open" reflects open
-  public endpoints; "Affiliation / Credentialed" reflects access gated by institutional
-  identity rather than payment.
+  No commercial pricing of any kind. "Free / Open" is the open-data surface, which
+  needs no credential at all; "Affiliation / Credentialed" is the identity plane
+  and the gated end-user applications, where access is granted by institutional
+  relationship rather than payment. Verified by live probe 2026-09-01.
+method: probed
 sources:
+- https://data.ksu.edu.sa/ar/node/1178
+- https://iam.ksu.edu.sa/.well-known/openid-configuration
 - https://raw.githubusercontent.com/api-evangelist/king-saud-university/refs/heads/main/apis.yml
 plans:
 - id: king-saud-university-free-open
   name: Free / Open
   type: free
-  description: Public open APIs (metadata, library, repository, course data) offered at no charge, generally for non-commercial use.
+  description: The KSU Open Data distribution files at data.ksu.edu.sa — JSON, XML, RDF/XML, CSV and XLSX — served anonymously at no charge under the KSU Open Data Licence.
   entries:
   - label: Open API Access
     name: open_api_access
@@ -42,7 +49,7 @@ plans:
 - id: king-saud-university-affiliation
   name: Affiliation / Credentialed
   type: free
-  description: Administrative and identity APIs gated behind institutional SSO, client certificates, or federation membership rather than payment.
+  description: The OAuth 2.0 / OpenID Connect / SAML identity plane at iam.ksu.edu.sa and the gated end-user applications behind it, where a client or account is issued by the university rather than bought.
   entries:
   - label: Credentialed Access
     name: credentialed_access

@@ -1,0 +1,81 @@
+generated: '2026-09-01'
+method: probed
+source: Live HTTP GETs against https://data.ksu.edu.sa on 2026-09-01; every response body below is verbatim
+  from the university's own server.
+x-operator: institution
+examples:
+- name: Administrative and technical staff (الموظفون الإداريون والفنيون), Hijri year 1444
+  request: GET https://data.ksu.edu.sa/sites/data.ksu.edu.sa/files/users/user976/KSU-DMO-OD-DATASET-Employees-1444-AH.json
+  status: 200
+  content_type: application/json
+  record_count: 11709
+  first_record:
+    المؤهل العلمي: البكالوريوس
+    الجنس: أنثى
+    المجموعة الوظيفية: إداري وفني
+- name: Faculty members and equivalent (أعضاء هيئة التدريس ومن في حكمهم), Hijri year 1444
+  request: GET https://data.ksu.edu.sa/sites/data.ksu.edu.sa/files/users/user976/KSU-DMO-OD-DATASET-Faculty-1444-AH.json
+  status: 200
+  content_type: application/json
+  record_count: 6524
+  first_record:
+    الكلية: الآداب
+    الجنس: أنثى
+    المرتبة العلمية: معيد
+    المؤهل العلمي: البكالوريوس
+- name: Students on outbound scholarship (المبتعثون للخارج), Hijri year 1444
+  request: GET https://data.ksu.edu.sa/sites/data.ksu.edu.sa/files/users/user976/KSU-DMO-OD-DATASET-Scholarships-Students-1444-AH.json
+  status: 200
+  content_type: application/json
+  record_count: 432
+  first_record:
+    مؤهل الابتعاث: الماجستير
+    دولة الابتعاث: استراليا
+    الكلية: الأمير سلطان بن عبدالعزيز للخدمات الطبية الطارئة
+    الجنس: ذكر
+- name: University library holdings by subject (مقتنيات المكتبات), Hijri year 1444
+  request: GET https://data.ksu.edu.sa/sites/data.ksu.edu.sa/files/users/user976/KSU-DMO-OD-DATASET-SciResearch-Libraries-Holdings-1444-AH.json
+  status: 200
+  content_type: application/json
+  record_count: 11
+  first_record:
+    الموضوعات: الكتب
+    عدد العناوين: '511143'
+    عدد المجلدات: '1636188'
+- name: University Medical City service volumes (المدينة الطبية الجامعية), Hijri year 1444
+  request: GET https://data.ksu.edu.sa/sites/data.ksu.edu.sa/files/users/user976/KSU-DMO-OD-DATASET-CommunityService-MedCity-1444-AH.json
+  status: 200
+  content_type: application/json
+  record_count: 6
+  first_record:
+    نوع  الخدمة: عدد مراجعي (زوار) العيادات الخارجية
+    مستشفى الملك خالد الجامعي: '501659'
+    مستشفى الملك عبدالعزيز الجامعي: '126608'
+    مستشفى طب الأسنان الجامعي: '244017'
+- name: Services provided to students (الخدمات المقدمة للطلاب), Hijri year 1444
+  request: GET https://data.ksu.edu.sa/sites/data.ksu.edu.sa/files/users/user976/KSU-DMO-OD-DATASET-StudentServices-Services-1444-AH.json
+  status: 200
+  content_type: application/json
+  record_count: 5
+  first_record:
+    'نوع  الخدمة  ': توجيه وإرشاد
+    عدد الخدمات المقدمة: 4
+    'عدد المستفيدين والمستفيدات ': 4967
+- name: Research chairs and scholarly associations (كراسي البحث والجمعيات العلمية), Hijri year 1444
+  request: GET https://data.ksu.edu.sa/sites/data.ksu.edu.sa/files/users/user976/KSU-DMO-OD-DATASET-SciResearch-Chairs-And-Associations-1444-AH.json
+  status: 200
+  content_type: application/json
+  record_count: 4
+  first_record:
+    المجال: الإنساني
+    كراسي البحث: '11'
+    الجمعيات العلمية: '17'
+- name: Community training courses and programmes (الدورات والبرامج التدريبية), Hijri year 1444
+  request: GET https://data.ksu.edu.sa/sites/data.ksu.edu.sa/files/users/user976/KSU-DMO-OD-DATASET-CommunityService-Training-1444-AH.json
+  status: 200
+  content_type: application/json
+  record_count: 9
+  first_record:
+    نوع  التدريب: المهارات التعليمية
+    عدد الدورات والبرامج المنفذة: '96'
+    عدد المستفيدين والمستفيدات: '1570'

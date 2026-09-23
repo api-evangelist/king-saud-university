@@ -4,7 +4,7 @@ schema: https://www.finops.org/framework/
 provider: King Saud University
 providerId: king-saud-university
 created: '2026-06-03'
-modified: '2026-06-03'
+modified: '2026-09-01'
 reconciled: false
 tags:
 - Education
@@ -17,7 +17,10 @@ description: >-
   APIs carry no usage-based billing; there is no invoiced cost to allocate or optimize.
   FinOps relevance is limited to the institution's own internal cloud/infrastructure
   cost management, which is not publicly disclosed.
-notes: No public usage-based API billing; King Saud University's APIs are free/open or affiliation-gated.
+notes: >-
+  No public usage-based API billing. The Open Data surface at data.ksu.edu.sa is
+  free and unauthenticated; the identity plane at iam.ksu.edu.sa is free but not
+  self-service. Verified by live probe 2026-09-01.
 sources:
 - https://raw.githubusercontent.com/api-evangelist/king-saud-university/refs/heads/main/apis.yml
 - https://www.finops.org/framework/

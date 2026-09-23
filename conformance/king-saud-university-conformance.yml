@@ -1,0 +1,159 @@
+generated: '2026-09-01'
+method: probed
+source: >-
+  Live probes on 2026-09-01 of data.ksu.edu.sa, iam.ksu.edu.sa, lms.ksu.edu.sa and
+  repository.ksu.edu.sa; the eduGAIN interfederation entity list
+  (https://technical.edugain.org/api.php?action=list_entities); the Crossref
+  members API (https://api.crossref.org/members/19827); the DataCite providers and
+  clients APIs; and the ROR v2 API.
+x-operator: institution
+regime: education
+note: >-
+  Reward-only. A standard is marked `conforms: true` only where a live artifact or
+  registry record evidences it. Standards in the education regime with no evidence
+  are recorded as false with the reason, not left out and not asserted from prose.
+standards:
+  - id: saml
+    conforms: true
+    evidence: >-
+      King Saud University operates its own SAML 2.0 identity provider. Its entity
+      is present in the eduGAIN interfederation metadata as entityID
+      `http://SSO.ksu.edu.sa/adfs/services/trust`, role IDPSSODescriptor,
+      displayName "King Saud University", scope `ksu.edu.sa`, registration
+      authority https://www.maeen.sa (Maeen Identity Federation, code SA-MIF),
+      first seen 2020-02-02. SP-initiated SSO is live: https://lms.ksu.edu.sa/
+      returns a self-submitting SAML AuthnRequest whose form action is
+      https://iam.ksu.edu.sa/idp/startSSO.ping?PartnerSpId=https%3A%2F%2Flms.ksu.edu.sa.
+    locations:
+      - https://mds.edugain.org/edugain-v2.xml
+      - https://technical.edugain.org/entities?id=671188
+      - https://iam.ksu.edu.sa/idp/startSSO.ping
+  - id: shibboleth
+    conforms: false
+    evidence: >-
+      The federation entry is real but the software is not Shibboleth — the
+      deployment is PingFederate (the eduGAIN entityID retains the university's
+      earlier ADFS identifier), and https://iam.ksu.edu.sa/idp/shibboleth returns
+      HTTP 404. SAML conformance is recorded above; Shibboleth specifically is not
+      claimed.
+  - id: crossref
+    conforms: true
+    evidence: >-
+      King Saud University is Crossref member 19827 with DOI prefix 10.33948,
+      confirmed against https://api.crossref.org/members/19827 and
+      https://api.crossref.org/prefixes/10.33948 on 2026-09-01. Crossref reports
+      1,521 DOIs registered under the prefix (354 current, 1,167 backfile).
+    locations:
+      - https://api.crossref.org/members/19827
+      - https://api.crossref.org/prefixes/10.33948
+  - id: datacite
+    conforms: false
+    evidence: >-
+      No DataCite membership found. Both https://api.datacite.org/providers?query=King+Saud
+      and https://api.datacite.org/clients?query=King+Saud returned meta.total 0 on
+      2026-09-01. The university registers DOIs through Crossref, not DataCite.
+  - id: oai-pmh
+    conforms: false
+    evidence: >-
+      The Registry of Open Access Repositories still lists a King Saud University
+      DSpace repository with an OAI-PMH interface at
+      http://repository.ksu.edu.sa/oai/request (ROAR record 3330, established
+      2008-12-16), but repository.ksu.edu.sa is NXDOMAIN as of 2026-09-01. The
+      registry record is stale; there is no live OAI-PMH endpoint on any KSU host
+      found in this review.
+  - id: orcid
+    conforms: false
+    evidence: >-
+      KSU-affiliated researchers hold ORCID iDs, but that is a fact about
+      individuals. No institutional ORCID membership, Member API integration or
+      ORCID-enabled repository operated by the university was found.
+  - id: scim
+    conforms: false
+    evidence: >-
+      No SCIM service provider configuration exposed. The identity plane at
+      iam.ksu.edu.sa advertises OAuth 2.0 and OpenID Connect but no
+      /scim/v2/ServiceProviderConfig.
+  - id: lti
+    conforms: false
+    evidence: >-
+      The learning platform at lms.ksu.edu.sa is Blackboard Learn SaaS operated by
+      Anthology (CNAME to ksu.blackboard.com), so any LTI capability there belongs
+      to the vendor's contract, not the institution's. No institution-published LTI
+      tool or platform registration was found.
+  - id: oneroster
+    conforms: false
+    evidence: No IMS Global / 1EdTech OneRoster endpoint published.
+  - id: ed-fi
+    conforms: false
+    evidence: No Ed-Fi ODS/API published; Ed-Fi is a US K-12 standard with no
+      footprint at this institution.
+  - id: caliper
+    conforms: false
+    evidence: No Caliper Analytics event store or sensor published by the institution.
+  - id: qti
+    conforms: false
+    evidence: No QTI assessment interchange surface published by the institution.
+adjacent_standards:
+  - id: oauth2
+    conforms: true
+    evidence: >-
+      https://iam.ksu.edu.sa/.well-known/oauth-authorization-server returns HTTP
+      200 application/json — RFC 8414 authorization server metadata with issuer
+      https://iam.ksu.edu.sa. Token endpoint returns 405 to GET (POST-only),
+      confirming it is live.
+  - id: oidc
+    conforms: true
+    evidence: >-
+      https://iam.ksu.edu.sa/.well-known/openid-configuration returns HTTP 200
+      application/json (OpenID Connect Discovery 1.0), and the JWKS at
+      https://iam.ksu.edu.sa/pf/JWKS returns live EC/ES256 signing keys.
+      /idp/userinfo.openid returns a well-formed 401 JSON body to an anonymous
+      request.
+  - id: rfc7662-token-introspection
+    conforms: true
+    evidence: introspection_endpoint https://iam.ksu.edu.sa/as/introspect.oauth2
+      advertised in the discovery document.
+  - id: rfc7009-token-revocation
+    conforms: true
+    evidence: revocation_endpoint https://iam.ksu.edu.sa/as/revoke_token.oauth2
+      advertised in the discovery document.
+  - id: rfc8628-device-grant
+    conforms: true
+    evidence: device_authorization_endpoint https://iam.ksu.edu.sa/as/device_authz.oauth2
+      advertised, with grant type urn:ietf:params:oauth:grant-type:device_code.
+  - id: rfc9126-par
+    conforms: true
+    evidence: pushed_authorization_request_endpoint https://iam.ksu.edu.sa/as/par.oauth2
+      advertised; require_pushed_authorization_requests is false.
+  - id: pkce
+    conforms: true
+    evidence: code_challenge_methods_supported includes S256.
+  - id: ciba
+    conforms: true
+    evidence: backchannel_authentication_endpoint https://iam.ksu.edu.sa/as/bc-auth.ciba
+      with delivery modes poll and ping.
+  - id: rdf
+    conforms: true
+    evidence: >-
+      219 of the 852 open-data distribution files are RDF/XML, served with
+      Content-Type application/rdf+xml — for example
+      https://data.ksu.edu.sa/sites/data.ksu.edu.sa/files/users/user976/KSU-DMO-OD-DATASET-SciResearch-Awards-And-Patents-1443-AH.rdf
+  - id: ror
+    conforms: true
+    evidence: >-
+      King Saud University is registered in the Research Organization Registry as
+      https://ror.org/02f81g417, confirmed via the ROR v2 API on 2026-09-01.
+  - id: rfc9457-problem-details
+    conforms: false
+    evidence: >-
+      No application/problem+json responses observed. The identity plane returns
+      `{"status":401, "message":"Unauthorized"}` and the open-data portal returns a
+      themed Drupal HTML page on 404.
+  - id: openapi
+    conforms: false
+    evidence: >-
+      King Saud University publishes no OpenAPI, AsyncAPI, apis.json, llms.txt or
+      agent card. https://ksu.edu.sa/apis.json, /llms.txt,
+      /.well-known/agent-card.json and /.well-known/security.txt all returned 404
+      on 2026-09-01. The OpenAPI documents in openapi/ are API Evangelist's, not
+      the university's — see each document's x-provenance.

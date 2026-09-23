@@ -3,8 +3,124 @@ name: King Saud University
 description: King Saud University public developer/API footprint review for APIs.json cataloging.
 url: https://raw.githubusercontent.com/api-evangelist/king-saud-university/refs/heads/main/review.yml
 created: '2026-06-03'
-modified: '2026-06-03'
+modified: '2026-09-01'
 reviews:
+  - date: '2026-09-01'
+    rating: 3
+    summary: >-
+      The 2026-06-03 finding of "no public API" is WITHDRAWN as wrong. King Saud
+      University operates two public, machine-readable, institution-owned surfaces;
+      both were missed because every piece of guidance for them exists only in
+      Arabic. (1) The KSU Data Management Office runs an open-data programme at
+      data.ksu.edu.sa — 852 dataset distribution files across seven families in
+      JSON, XML, RDF/XML, CSV and XLSX, entirely unauthenticated, under a
+      KSU-authored open-data licence, on a declared annual cadence, documented by
+      an Arabic API guide and a 13-page reference PDF. 20 of 20 sampled files
+      returned HTTP 200; the 1444 AH employee dataset returned 11,709 records.
+      Note that data.ksu.edu.sa/en/api/guide is a 404 while
+      data.ksu.edu.sa/ar/api/guide is a 200 — the language barrier IS the finding.
+      (2) The university runs its own OAuth 2.0 / OpenID Connect / SAML identity
+      plane at iam.ksu.edu.sa, serving a full OIDC discovery document, RFC 8414
+      authorization-server metadata and a live JWKS anonymously, with PKCE, PAR,
+      CIBA, device grant, introspection and revocation all advertised. Its SAML
+      identity provider is registered in eduGAIN by the Saudi Maeen federation.
+      Three relationships were recorded rather than credited as contracts (eduGAIN
+      via Maeen, Crossref member 19827 / prefix 10.33948, ROR 02f81g417) and one
+      tenancy was recorded without saving the vendor's contract (lms.ksu.edu.sa is
+      a CNAME to ksu.blackboard.com, Anthology Blackboard Learn SaaS). What KSU
+      genuinely lacks is a developer programme: no portal, no English reference, no
+      OpenAPI, no apis.json, no llms.txt, no agent card, no status page, and an
+      advertised OAuth client-registration endpoint that answers 404. A Figshare
+      tenancy was tested and rejected — ksu.figshare.com returns an AWS WAF
+      challenge, but so does a control request to a nonexistent subdomain.
+    endpoints:
+      - url: https://data.ksu.edu.sa/ar
+        status: 200
+        note: KSU Open Data portal, operated by the university's Data Management Office.
+      - url: https://data.ksu.edu.sa/ar/api/guide
+        status: 200
+        note: Arabic API guide, second edition, page last updated 2026-08-20.
+      - url: https://data.ksu.edu.sa/en/api/guide
+        status: 404
+        note: The English side of the same page does not exist — why the June review missed it.
+      - url: https://data.ksu.edu.sa/sites/data.ksu.edu.sa/files/2024-04/KSU-DMO-OD-API%20v.1.2.pdf
+        status: 200
+        note: KSU-DMO-OD-API v.1.2 reference PDF, 13 pages, enumerating 202 dataset names.
+      - url: https://data.ksu.edu.sa/sites/data.ksu.edu.sa/files/users/user976/KSU-DMO-OD-DATASET-Employees-1444-AH.json
+        status: 200
+        note: Live dataset, application/json, 1,981,961 bytes, 11,709 records.
+      - url: https://data.ksu.edu.sa/api/views/data_api?display_id=employees&limit=3&_format=json
+        status: 404
+        note: >-
+          The documented filtered query API. Drupal answers
+          {"message":"No route found for \"GET /api/views/data_api\""} — documented
+          but withdrawn, so it is excluded from the OpenAPI.
+      - url: https://data.ksu.edu.sa/ar/node/1178
+        status: 200
+        note: King Saud University Open Data Licence, KSU named as licensor.
+      - url: https://data.ksu.edu.sa/ar/node/1172
+        status: 200
+        note: Open-data publication timetable; all seven dataset families are annual.
+      - url: https://iam.ksu.edu.sa/.well-known/openid-configuration
+        status: 200
+        note: OpenID Connect discovery document, issuer https://iam.ksu.edu.sa, PingFederate.
+      - url: https://iam.ksu.edu.sa/.well-known/oauth-authorization-server
+        status: 200
+        note: RFC 8414 authorization server metadata.
+      - url: https://iam.ksu.edu.sa/pf/JWKS
+        status: 200
+        note: Live JSON Web Key Set, EC keys with alg ES256.
+      - url: https://iam.ksu.edu.sa/idp/userinfo.openid
+        status: 401
+        note: 'Correct anonymous response: {"status":401, "message":"Unauthorized"}.'
+      - url: https://iam.ksu.edu.sa/as/token.oauth2
+        status: 405
+        note: Endpoint exists and is POST-only.
+      - url: https://iam.ksu.edu.sa/as/clients.oauth2
+        status: 404
+        note: >-
+          The advertised registration_endpoint. Discoverable but closed — no
+          third-party developer can self-onboard.
+      - url: https://mds.edugain.org/edugain-v2.xml
+        status: 200
+        note: >-
+          eduGAIN aggregate carrying entityID http://SSO.ksu.edu.sa/adfs/services/trust,
+          IDPSSODescriptor, scope ksu.edu.sa, registered by https://www.maeen.sa
+          (SA-MIF), first seen 2020-02-02.
+      - url: https://api.crossref.org/members/19827
+        status: 200
+        note: Crossref member King Saud University, prefix 10.33948, 1,521 DOIs.
+      - url: https://ror.org/02f81g417
+        status: 200
+        note: Research Organization Registry identifier for King Saud University.
+      - url: https://lms.ksu.edu.sa/
+        status: 200
+        note: >-
+          CNAME to ksu.blackboard.com — Anthology Blackboard Learn SaaS tenancy.
+          Returns a SAML AuthnRequest to iam.ksu.edu.sa/idp/startSSO.ping.
+      - url: https://aio.ksu.edu.sa/ar/node/2976
+        status: 200
+        note: >-
+          KSU Artificial Intelligence Office guidelines, including a generative-AI
+          in education guideline v1.0 (03/2025). Arabic only.
+      - url: https://repository.ksu.edu.sa/
+        status: 0
+        note: NXDOMAIN. The DSpace repository ROAR record 3330 still lists is gone.
+      - url: https://catalog.library.ksu.edu.sa/
+        status: 0
+        note: Resolves to 212.57.211.31 but the TCP connection fails on 80 and 443.
+      - url: https://edugate.ksu.edu.sa/ksu/init
+        status: 0
+        note: Timed out on three consecutive attempts; returned 200 at the 2026-06-03 review.
+      - url: https://ksu.figshare.com/
+        status: 202
+        note: >-
+          AWS WAF challenge. A control request to a deliberately nonexistent
+          *.figshare.com subdomain returned the identical 202 challenge, so this is
+          NOT evidence of a KSU Figshare tenancy and none was recorded.
+      - url: https://ksu.edu.sa/llms.txt
+        status: 404
+        note: No llms.txt, apis.json, agent card or security.txt on any KSU host probed.
   - date: '2026-06-03'
     rating: 1
     summary: >-

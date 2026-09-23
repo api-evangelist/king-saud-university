@@ -1,0 +1,238 @@
+openapi: 3.1.0
+info:
+  title: King Saud University Open Data Distribution API
+  version: '1.2'
+  summary: Public, unauthenticated HTTP access to the open datasets published by the
+    King Saud University Data Management Office.
+  description: >-
+    King Saud University (جامعة الملك سعود), through its Data Management Office
+    (مكتب إدارة البيانات), publishes institutional open data on its own domain at
+    https://data.ksu.edu.sa. Every dataset is released in five machine-readable
+    distributions — JSON, XML, RDF/XML, CSV and XLSX — as stable, unauthenticated
+    HTTP resources under a single directory. This document describes those
+    distribution endpoints, which were probed live on 2026-09-01 (20 of 20 sampled
+    files returned HTTP 200 with the correct content type).
+
+
+    Dataset families published: enrolled students, graduates, faculty, employees
+    (administrative and technical staff), outbound scholarships (students and
+    graduates), scientific research (publications, awards and patents, research
+    chairs and scholarly associations, library holdings), student services
+    (services, activities, accommodation) and community service (medical city,
+    training). Coverage runs from Hijri year 1430/1431 AH through 1444 AH, with
+    newer files keyed by Gregorian year (2023, 2024, 2025). The publication cadence
+    is annual, stated on the university's own open-data timetable.
+
+
+    IMPORTANT — a second, filtered query interface is DOCUMENTED but NOT LIVE.
+    The university's Arabic API guide (https://data.ksu.edu.sa/ar/api/guide,
+    "الإصدار الثاني") documents a parameterised endpoint at
+    `GET /api/views/data_api?display_id={view}&year={hijri}&limit={n}` with
+    per-view filters (gender, college, qualification, degree, country,
+    functional_group). On 2026-09-01 that route returned HTTP 404 from the Drupal
+    router with the body
+    `{"message":"No route found for \"GET /api/views/data_api\""}`.
+    It is therefore deliberately NOT described in this contract. Only the
+    verified-live distribution endpoints below are.
+
+
+    Operator: King Saud University. This is an institution-operated surface on the
+    institution's own registrable domain (ksu.edu.sa) — it is not a vendor platform
+    running under the university's name.
+  termsOfService: https://data.ksu.edu.sa/ar/node/1178
+  contact:
+    name: King Saud University Data Management Office
+    url: https://data.ksu.edu.sa/ar
+  license:
+    name: King Saud University Open Data Licence
+    url: https://data.ksu.edu.sa/ar/node/1178
+  x-operator: institution
+  x-operator-basis: >-
+    Host data.ksu.edu.sa is under the institution's own registrable domain
+    ksu.edu.sa; the portal identifies its publisher as the KSU Data Management
+    Office and carries a licence granted by King Saud University as licensor.
+  x-provenance:
+    generated: '2026-09-01'
+    method: derived
+    source: >-
+      Derived from live probes of https://data.ksu.edu.sa dataset distributions,
+      the Arabic API guide at https://data.ksu.edu.sa/ar/api/guide, and the
+      13-page reference PDF
+      https://data.ksu.edu.sa/sites/data.ksu.edu.sa/files/2024-04/KSU-DMO-OD-API%20v.1.2.pdf
+      (KSU-DMO-OD-API v.1.2). King Saud University publishes no OpenAPI of its
+      own; this description was written by API Evangelist from the university's
+      own documentation plus verified HTTP responses.
+servers:
+  - url: https://data.ksu.edu.sa
+    description: King Saud University Open Data portal (Drupal), Riyadh, Saudi Arabia.
+tags:
+  - name: Datasets
+    description: Stable distributions of King Saud University open datasets.
+paths:
+  /sites/data.ksu.edu.sa/files/users/user976/{dataset}.json:
+    get:
+      operationId: getDatasetJson
+      summary: Retrieve a dataset as JSON
+      description: >-
+        Returns the full dataset as a JSON array of flat record objects. Field
+        names are Arabic strings and differ per dataset family. The response body
+        begins with a UTF-8 BOM. Verified live 2026-09-01 — for example
+        KSU-DMO-OD-DATASET-Employees-1444-AH.json returned 11,709 records
+        (1,981,961 bytes).
+      tags: [Datasets]
+      parameters:
+        - $ref: '#/components/parameters/Dataset'
+      responses:
+        '200':
+          description: The dataset, as an array of records.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DatasetRecordSet'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /sites/data.ksu.edu.sa/files/users/user976/{dataset}.xml:
+    get:
+      operationId: getDatasetXml
+      summary: Retrieve a dataset as XML
+      description: Returns the full dataset as an XML document. Content-Type text/xml.
+      tags: [Datasets]
+      parameters:
+        - $ref: '#/components/parameters/Dataset'
+      responses:
+        '200':
+          description: The dataset, as XML.
+          content:
+            text/xml:
+              schema:
+                type: string
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /sites/data.ksu.edu.sa/files/users/user976/{dataset}.rdf:
+    get:
+      operationId: getDatasetRdf
+      summary: Retrieve a dataset as RDF/XML
+      description: >-
+        Returns the full dataset as RDF/XML (Content-Type application/rdf+xml) —
+        the linked-data distribution. 219 of the 852 published files are RDF.
+      tags: [Datasets]
+      parameters:
+        - $ref: '#/components/parameters/Dataset'
+      responses:
+        '200':
+          description: The dataset, as RDF/XML.
+          content:
+            application/rdf+xml:
+              schema:
+                type: string
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /sites/data.ksu.edu.sa/files/users/user976/{dataset}.csv:
+    get:
+      operationId: getDatasetCsv
+      summary: Retrieve a dataset as CSV
+      description: Returns the full dataset as comma-separated values. Content-Type text/csv.
+      tags: [Datasets]
+      parameters:
+        - $ref: '#/components/parameters/Dataset'
+      responses:
+        '200':
+          description: The dataset, as CSV.
+          content:
+            text/csv:
+              schema:
+                type: string
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /sites/data.ksu.edu.sa/files/users/user976/{dataset}.xlsx:
+    get:
+      operationId: getDatasetXlsx
+      summary: Retrieve a dataset as an Excel workbook
+      description: >-
+        Returns the full dataset as an Office Open XML workbook (Content-Type
+        application/vnd.openxmlformats-officedocument.spreadsheetml.sheet).
+      tags: [Datasets]
+      parameters:
+        - $ref: '#/components/parameters/Dataset'
+      responses:
+        '200':
+          description: The dataset, as an XLSX workbook.
+          content:
+            application/vnd.openxmlformats-officedocument.spreadsheetml.sheet:
+              schema:
+                type: string
+                format: binary
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  parameters:
+    Dataset:
+      name: dataset
+      in: path
+      required: true
+      description: >-
+        The dataset file name without its extension, following the university's
+        own naming convention KSU-DMO-OD-DATASET-{Family}-{Period}. 202 names are
+        enumerated in the reference PDF; 852 distribution files are linked from the
+        portal's seven dataset category pages.
+      schema:
+        type: string
+        pattern: '^KSU-DMO-OD-DATASET-[A-Za-z0-9-]+$'
+      examples:
+        employees:
+          value: KSU-DMO-OD-DATASET-Employees-1444-AH
+          summary: Administrative and technical staff, 1444 AH
+        faculty:
+          value: KSU-DMO-OD-DATASET-Faculty-1444-AH
+          summary: Faculty members, 1444 AH
+        enrolledStudents:
+          value: KSU-DMO-OD-DATASET-Students-Enrolled-1443-AH-First-Semester
+          summary: Enrolled students, 1443 AH first semester
+        scholarships:
+          value: KSU-DMO-OD-DATASET-Scholarships-Students-1444-AH
+          summary: Students on outbound scholarship, 1444 AH
+        publications:
+          value: KSU-DMO-OD-DATASET-SciResarch-Publications-1444-AH
+          summary: Scientific publications, 1444 AH (note the university's own spelling "SciResarch" on pre-1438 files)
+        libraryHoldings:
+          value: KSU-DMO-OD-DATASET-SciResearch-Libraries-Holdings-1444-AH
+          summary: University library holdings by subject, 1444 AH
+        medicalCity:
+          value: KSU-DMO-OD-DATASET-CommunityService-MedCity-1444-AH
+          summary: University Medical City activity, 1444 AH
+  responses:
+    NotFound:
+      description: >-
+        No such dataset file. The portal is a Drupal site, so a missing file
+        returns the themed 404 page as text/html rather than a JSON error body.
+      content:
+        text/html:
+          schema:
+            type: string
+  schemas:
+    DatasetRecordSet:
+      type: array
+      description: >-
+        A dataset is a flat array of records. Record shape is per dataset family;
+        no field is common to all families. See json-schema/ for the eight record
+        shapes verified against live data on 2026-09-01.
+      items:
+        $ref: '#/components/schemas/DatasetRecord'
+    DatasetRecord:
+      type: object
+      description: >-
+        One row of an open dataset. Property names are Arabic labels supplied by
+        the publisher and vary by dataset family. Numeric measures are sometimes
+        typed as JSON numbers and sometimes as strings — this is the publisher's
+        own inconsistency, observed across families, and is recorded rather than
+        normalised.
+      additionalProperties:
+        anyOf:
+          - type: string
+          - type: number
+      examples:
+        - المؤهل العلمي: البكالوريوس
+          الجنس: أنثى
+          المجموعة الوظيفية: إداري وفني
+  securitySchemes: {}
+security: []

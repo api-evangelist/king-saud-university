@@ -1,0 +1,115 @@
+generated: '2026-09-01'
+method: probed
+source: >-
+  The King Saud University open-data publication timetable
+  (https://data.ksu.edu.sa/ar/node/1172), the university's API guide
+  (https://data.ksu.edu.sa/ar/api/guide) and reference PDF
+  (https://data.ksu.edu.sa/sites/data.ksu.edu.sa/files/2024-04/KSU-DMO-OD-API%20v.1.2.pdf),
+  plus live probes on 2026-09-01.
+x-operator: institution
+surfaces:
+  - api: king-saud-university:open-data
+    stage: production
+    versioning:
+      scheme: dataset-period
+      detail: >-
+        There is no API version in the path. Versioning is by dataset period,
+        encoded in the file name — Hijri years 1430/1431 AH through 1444 AH, with
+        newer releases keyed by Gregorian year (2023, 2024, 2025). Some 1443 and
+        1444 AH student datasets are split by semester
+        (-First-Semester / -Second-Semester / -Third-Semester).
+      documentation_versions:
+        - KSU-DMO-OD-API v.1.2 (PDF, published 2024-04, labelled "third edition")
+        - Web API guide labelled "الإصدار الثاني" (second edition), page last
+          updated 2026-08-20
+      note: >-
+        The PDF and the web guide describe two different things and neither
+        supersedes the other cleanly — the PDF documents copying stable file URLs,
+        the web guide documents a filtered query endpoint. The web guide is newer
+        and its endpoint is dead.
+    release_cadence:
+      frequency: annual
+      declared_at: https://data.ksu.edu.sa/ar/node/1172
+      datasets:
+        - enrolled and graduating students
+        - faculty members and equivalent
+        - administrative and technical staff
+        - outbound scholarships
+        - scientific research and publication
+        - student activities and services
+        - community service
+    deprecations:
+      - element: Filtered query API
+        path: GET /api/views/data_api
+        documented_at: https://data.ksu.edu.sa/ar/api/guide
+        observed_status: 404
+        observed_body: '{"message":"No route found for \"GET /api/views/data_api\""}'
+        observed_on: '2026-09-01'
+        detail: >-
+          The university still documents a parameterised query endpoint with
+          display_id, year, cat, subcat, limit and per-view filters. The Drupal
+          router no longer has a route for it. This is a documented-but-withdrawn
+          interface, not a temporary outage: the failure comes from the routing
+          layer, not from the application. It is deliberately excluded from
+          openapi/king-saud-university-open-data-openapi.yml.
+        announced: false
+    stability:
+      detail: >-
+        The distribution file URLs are stable and long-lived — files dating back to
+        1430/1431 AH still resolve under the same directory. 20 of 20 sampled files
+        returned HTTP 200 on 2026-09-01. Two documented file names in the reference
+        PDF returned 404, so the enumerated list is slightly ahead of what is
+        actually published.
+    support_channel: https://data.ksu.edu.sa/ar
+    changelog: none published
+    status_page: none published
+  - api: king-saud-university:identity
+    stage: production
+    versioning:
+      scheme: none
+      detail: >-
+        Discovery-document driven. There is no versioned path; the metadata at
+        https://iam.ksu.edu.sa/.well-known/openid-configuration is the contract and
+        changes in place.
+    migrations:
+      - from: Active Directory Federation Services
+        to: PingFederate
+        evidence: >-
+          The eduGAIN-registered entityID is still
+          http://SSO.ksu.edu.sa/adfs/services/trust — an ADFS-shaped identifier —
+          while live SP-initiated SSO runs at
+          https://iam.ksu.edu.sa/idp/startSSO.ping, a PingFederate endpoint, and
+          sso.ksu.edu.sa itself now returns HTTP 404. A SAML entityID is an
+          identifier rather than a location, so leaving it unchanged across a
+          software migration is correct practice, not an error.
+        observed_on: '2026-09-01'
+    onboarding:
+      self_service: false
+      detail: >-
+        registration_endpoint https://iam.ksu.edu.sa/as/clients.oauth2 is
+        advertised but returned HTTP 404 anonymously on 2026-09-01. No developer
+        portal, no documentation and no application form for this surface was
+        found. It is discoverable but closed.
+    changelog: none published
+    status_page: none published
+retired:
+  - name: DSpace institutional repository
+    host: repository.ksu.edu.sa
+    oai_pmh: http://repository.ksu.edu.sa/oai/request
+    registry_record: https://roar.eprints.org/3330/
+    established: '2008-12-16'
+    observed_status: 0
+    observed_on: '2026-09-01'
+    detail: >-
+      NXDOMAIN. The host does not resolve, so neither the repository nor its
+      OAI-PMH endpoint exists any longer. The ROAR registry entry is stale. This
+      was already recorded as unresolvable in the 2026-06-03 review and is
+      unchanged.
+  - name: Library automated catalogue
+    host: catalog.library.ksu.edu.sa
+    observed_status: 0
+    observed_on: '2026-09-01'
+    detail: >-
+      The host resolves in DNS (212.57.211.31) but the TCP connection fails on both
+      port 80 and port 443. Linked from the Deanship of Library Affairs site; dead
+      in practice.
