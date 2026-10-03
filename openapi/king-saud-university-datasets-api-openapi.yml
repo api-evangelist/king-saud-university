@@ -117,23 +117,6 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
-  schemas:
-    DatasetRecord:
-      type: object
-      description: One row of an open dataset. Property names are Arabic labels supplied by the publisher and vary by dataset family. Numeric measures are sometimes typed as JSON numbers and sometimes as strings — this is the publisher's own inconsistency, observed across families, and is recorded rather than normalised.
-      additionalProperties:
-        anyOf:
-        - type: string
-        - type: number
-      examples:
-      - المؤهل العلمي: البكالوريوس
-        الجنس: أنثى
-        المجموعة الوظيفية: إداري وفني
-    DatasetRecordSet:
-      type: array
-      description: A dataset is a flat array of records. Record shape is per dataset family; no field is common to all families. See json-schema/ for the eight record shapes verified against live data on 2026-09-01.
-      items:
-        $ref: '#/components/schemas/DatasetRecord'
   parameters:
     Dataset:
       name: dataset
@@ -165,6 +148,23 @@ components:
         medicalCity:
           value: KSU-DMO-OD-DATASET-CommunityService-MedCity-1444-AH
           summary: University Medical City activity, 1444 AH
+  schemas:
+    DatasetRecord:
+      type: object
+      description: One row of an open dataset. Property names are Arabic labels supplied by the publisher and vary by dataset family. Numeric measures are sometimes typed as JSON numbers and sometimes as strings — this is the publisher's own inconsistency, observed across families, and is recorded rather than normalised.
+      additionalProperties:
+        anyOf:
+        - type: string
+        - type: number
+      examples:
+      - المؤهل العلمي: البكالوريوس
+        الجنس: أنثى
+        المجموعة الوظيفية: إداري وفني
+    DatasetRecordSet:
+      type: array
+      description: A dataset is a flat array of records. Record shape is per dataset family; no field is common to all families. See json-schema/ for the eight record shapes verified against live data on 2026-09-01.
+      items:
+        $ref: '#/components/schemas/DatasetRecord'
   responses:
     NotFound:
       description: No such dataset file. The portal is a Drupal site, so a missing file returns the themed 404 page as text/html rather than a JSON error body.

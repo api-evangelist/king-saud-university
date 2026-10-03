@@ -354,6 +354,41 @@ paths:
           description: No PartnerSpId supplied.
 components:
   schemas:
+    PingError:
+      type: object
+      description: The error shape actually returned by this deployment.
+      properties:
+        status:
+          type: integer
+          examples:
+          - 401
+        message:
+          type: string
+          examples:
+          - Unauthorized
+      required:
+      - status
+      - message
+    TokenResponse:
+      type: object
+      properties:
+        access_token:
+          type: string
+        token_type:
+          type: string
+          examples:
+          - Bearer
+        expires_in:
+          type: integer
+        refresh_token:
+          type: string
+        id_token:
+          type: string
+        scope:
+          type: string
+      required:
+      - access_token
+      - token_type
     Jwks:
       type: object
       properties:
@@ -373,30 +408,6 @@ components:
             additionalProperties: true
       required:
       - keys
-    OAuthError:
-      type: object
-      properties:
-        error:
-          type: string
-        error_description:
-          type: string
-      required:
-      - error
-    PingError:
-      type: object
-      description: The error shape actually returned by this deployment.
-      properties:
-        status:
-          type: integer
-          examples:
-          - 401
-        message:
-          type: string
-          examples:
-          - Unauthorized
-      required:
-      - status
-      - message
     UserInfo:
       type: object
       description: Claim names below are exactly the `claims_supported` array from the university's own discovery document, including its Active Directory passthrough claims.
@@ -478,26 +489,15 @@ components:
       - token_endpoint
       - jwks_uri
       additionalProperties: true
-    TokenResponse:
+    OAuthError:
       type: object
       properties:
-        access_token:
+        error:
           type: string
-        token_type:
-          type: string
-          examples:
-          - Bearer
-        expires_in:
-          type: integer
-        refresh_token:
-          type: string
-        id_token:
-          type: string
-        scope:
+        error_description:
           type: string
       required:
-      - access_token
-      - token_type
+      - error
   securitySchemes:
     bearerAuth:
       type: http
