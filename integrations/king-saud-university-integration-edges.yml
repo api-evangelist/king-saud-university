@@ -1,0 +1,35 @@
+edges:
+- partner_name: eduGAIN
+  partner: null
+  type: register
+  channel: standard-directory
+  relationship: network-participant
+  direction: partner-built
+  evidence: https://technical.edugain.org/api.php?action=list_entities&type=idp&format=json
+  category: research and education identity federation
+  contract_reference:
+    network: eduGAIN (GÉANT interfederation)
+    spec_file: null
+    roles:
+    - identity-provider
+    role: identity-provider
+    federations:
+    - SA-MIF
+    matched_by: domain:ksu.edu.sa
+    entities:
+    - entity_id: http://SSO.ksu.edu.sa/adfs/services/trust
+      role: identity-provider
+      federation: SA-MIF
+      display_name: King Saud University
+      entity_categories: null
+      sirtfi: false
+      coco: false
+    detected_by: sweep-higher-ed.py
+    detected: '2026-10-15'
+  detected_by: sweep-higher-ed.py
+  first_seen: '2026-10-15'
+generated: '2026-10-15'
+method: searched
+checked:
+- https://technical.edugain.org/api.php?action=list_entities&type=idp&format=json
+- https://technical.edugain.org/api.php?action=list_entities&type=sp&format=json
