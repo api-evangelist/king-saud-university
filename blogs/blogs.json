@@ -2,10 +2,10 @@
   "repo": "king-saud-university",
   "feeds": [
     {
-      "source": "https://library.ksu.edu.sa/en",
-      "feed_url": "https://library.ksu.edu.sa/en/rss.xml",
+      "source": "https://news.ksu.edu.sa/ar",
+      "feed_url": "https://news.ksu.edu.sa/ar/rss.xml",
       "title": "",
-      "saved": 0,
+      "saved": 1,
       "method": "discovered"
     },
     {
@@ -23,6 +23,6 @@
       "method": "feed"
     }
   ],
-  "post_count": 9,
-  "fetched": "2026-10-03T12:30:02Z"
+  "post_count": 10,
+  "fetched": "2026-10-10T13:15:00Z"
 }
