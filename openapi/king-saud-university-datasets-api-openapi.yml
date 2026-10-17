@@ -117,13 +117,6 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
-  responses:
-    NotFound:
-      description: No such dataset file. The portal is a Drupal site, so a missing file returns the themed 404 page as text/html rather than a JSON error body.
-      content:
-        text/html:
-          schema:
-            type: string
   schemas:
     DatasetRecord:
       type: object
@@ -141,6 +134,13 @@ components:
       description: A dataset is a flat array of records. Record shape is per dataset family; no field is common to all families. See json-schema/ for the eight record shapes verified against live data on 2026-09-01.
       items:
         $ref: '#/components/schemas/DatasetRecord'
+  responses:
+    NotFound:
+      description: No such dataset file. The portal is a Drupal site, so a missing file returns the themed 404 page as text/html rather than a JSON error body.
+      content:
+        text/html:
+          schema:
+            type: string
   parameters:
     Dataset:
       name: dataset

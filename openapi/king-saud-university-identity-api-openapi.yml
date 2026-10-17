@@ -363,40 +363,6 @@ components:
           type: string
       required:
       - error
-    Jwks:
-      type: object
-      properties:
-        keys:
-          type: array
-          items:
-            type: object
-            properties:
-              kty:
-                type: string
-              kid:
-                type: string
-              use:
-                type: string
-              alg:
-                type: string
-            additionalProperties: true
-      required:
-      - keys
-    PingError:
-      type: object
-      description: The error shape actually returned by this deployment.
-      properties:
-        status:
-          type: integer
-          examples:
-          - 401
-        message:
-          type: string
-          examples:
-          - Unauthorized
-      required:
-      - status
-      - message
     ProviderMetadata:
       type: object
       description: OpenID Connect / RFC 8414 provider metadata.
@@ -443,6 +409,45 @@ components:
       - token_endpoint
       - jwks_uri
       additionalProperties: true
+    TokenResponse:
+      type: object
+      properties:
+        access_token:
+          type: string
+        token_type:
+          type: string
+          examples:
+          - Bearer
+        expires_in:
+          type: integer
+        refresh_token:
+          type: string
+        id_token:
+          type: string
+        scope:
+          type: string
+      required:
+      - access_token
+      - token_type
+    Jwks:
+      type: object
+      properties:
+        keys:
+          type: array
+          items:
+            type: object
+            properties:
+              kty:
+                type: string
+              kid:
+                type: string
+              use:
+                type: string
+              alg:
+                type: string
+            additionalProperties: true
+      required:
+      - keys
     UserInfo:
       type: object
       description: Claim names below are exactly the `claims_supported` array from the university's own discovery document, including its Active Directory passthrough claims.
@@ -478,26 +483,21 @@ components:
         StudentName:
           type: string
       additionalProperties: true
-    TokenResponse:
+    PingError:
       type: object
+      description: The error shape actually returned by this deployment.
       properties:
-        access_token:
-          type: string
-        token_type:
+        status:
+          type: integer
+          examples:
+          - 401
+        message:
           type: string
           examples:
-          - Bearer
-        expires_in:
-          type: integer
-        refresh_token:
-          type: string
-        id_token:
-          type: string
-        scope:
-          type: string
+          - Unauthorized
       required:
-      - access_token
-      - token_type
+      - status
+      - message
   securitySchemes:
     bearerAuth:
       type: http
