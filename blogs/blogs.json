@@ -5,8 +5,15 @@
       "source": "https://news.ksu.edu.sa/ar",
       "feed_url": "https://news.ksu.edu.sa/ar/rss.xml",
       "title": "",
-      "saved": 1,
+      "saved": 0,
       "method": "discovered"
+    },
+    {
+      "source": "https://news.ksu.edu.sa/ar/rss.xml",
+      "feed_url": "https://news.ksu.edu.sa/ar/rss.xml",
+      "title": "",
+      "saved": 0,
+      "method": "feed"
     },
     {
       "source": "https://news.ksu.edu.sa/en/rss.xml",
@@ -23,6 +30,6 @@
       "method": "feed"
     }
   ],
-  "post_count": 10,
-  "fetched": "2026-10-10T13:15:00Z"
+  "post_count": 11,
+  "fetched": "2026-10-17T14:53:57Z"
 }
